@@ -35,6 +35,7 @@ class InitializeEvidence extends Migration
             $table->timestamps();
             $table->enum('status', ['created', 'present']);
             $table->enum('type', ['screenCapture', 'workScene']);
+            $table->text('filename');
             $table->foreignId('contestant_id')->references('id')->on('contestants');
         });
     }

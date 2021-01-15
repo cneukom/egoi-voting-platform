@@ -15,6 +15,7 @@ class EvidenceStoreRequest extends EvidenceRequest
                 'required',
                 Rule::in(EvidenceTypeEnum::toValues()),
             ],
+            'filename' => 'required|string',
             'status' => [
                 Rule::in([EvidenceStatusEnum::created()->value]),
             ],

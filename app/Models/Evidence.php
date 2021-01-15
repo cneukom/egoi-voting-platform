@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property EvidenceStatusEnum $status
  * @property EvidenceTypeEnum $type
+ * @property string $filename
  * @property-read string $key
  * @property-read Contestant $contestant
  */

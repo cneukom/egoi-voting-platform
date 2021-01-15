@@ -18,6 +18,7 @@ class EvidenceController extends Controller
         $evidence->contestant()->associate($request->contestant());
         $evidence->status = $data['status'] ?? EvidenceStatusEnum::created();
         $evidence->type = $data['type'];
+        $evidence->filename = $data['filename'];
         $evidence->save();
         return [
             'uploadUrl' => 'about:blank', // TODO inject Upload URL
