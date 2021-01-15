@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\EvidenceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('/delegation/{delegation}/{token}/contestants/{contestant}/evidence', EvidenceController::class)
+    ->only(['store', 'update', 'destroy']);
+Route::resource('/contestant/{contestant}/{token}/evidence', EvidenceController::class)
+    ->only(['store', 'update']);
