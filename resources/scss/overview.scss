@@ -1,0 +1,20 @@
+.evidence-table {
+    td {
+        width: 33%;
+    }
+}
+
+.evidence-badge {
+    display: inline-block;
+    height: 2em;
+    width: 2em;
+    vertical-align: bottom;
+
+    &:empty {
+        display: inline-block;
+    }
+
+    &.badge-success {
+        cursor: pointer;
+    }
+}

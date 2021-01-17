@@ -18,3 +18,4 @@ Route::resource('/delegation/{delegation}/{token}/contestants/{contestant}/evide
     ->only(['store', 'update', 'destroy']);
 Route::resource('/contestant/{contestant}/{token}/evidence', EvidenceController::class)
     ->only(['store', 'update']);
+Route::get('/evidence/{evidence}', [EvidenceController::class, 'view'])->middleware('auth');

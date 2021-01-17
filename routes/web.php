@@ -21,9 +21,7 @@ Route::get('/', function () {
 
 Route::get('/delegation/{delegation}/{token}/', [EvidenceController::class, 'index']);
 
-Route::get('/delegations', function() {
-    return view('delegation', ['delegation' => \App\Models\Delegation::first()]);
-})->middleware('auth');
+Route::get('/delegations', [EvidenceController::class, 'overview'])->middleware('auth');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')
