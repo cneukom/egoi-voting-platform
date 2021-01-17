@@ -14,6 +14,13 @@
         <a class="navbar-brand" href="">
             <img class="logo" alt="{{ __('app.name') }}" src="{{ asset('images/logo.svg') }}"/>
         </a>
+
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="javascript:" onclick="this.parentNode.submit()">Logout</a>
+            </form>
+        @endauth
     </div>
 </div>
 <div class="container">

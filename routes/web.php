@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\EvidenceController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,19 @@ Route::get('/', function () {
 });
 
 Route::get('/delegation/{delegation}/{token}/', [EvidenceController::class, 'index']);
+
+Route::get('/delegations', function() {
+    return view('delegation', ['delegation' => \App\Models\Delegation::first()]);
+})->middleware('auth');
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->middleware('guest')
+    ->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest');
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
