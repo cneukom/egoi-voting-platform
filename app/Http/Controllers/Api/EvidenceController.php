@@ -8,10 +8,13 @@ use App\Http\Requests\EvidenceStoreRequest;
 use App\Http\Requests\EvidenceUpdateRequest;
 use App\Models\Enums\EvidenceStatusEnum;
 use App\Models\Evidence;
+use App\Services\S3AjaxUploadService;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class EvidenceController extends Controller
 {
-    public function store(EvidenceStoreRequest $request): array
+    public function store(EvidenceStoreRequest $request, S3AjaxUploadService $uploadService): array
     {
         $data = $request->validated();
         $evidence = new Evidence();
@@ -20,22 +23,36 @@ class EvidenceController extends Controller
         $evidence->type = $data['type'];
         $evidence->filename = $data['filename'];
         $evidence->save();
+
+        $upload = $uploadService->prepareSignedUploadRequest($evidence->key);
         return [
-            'uploadUrl' => 'about:blank', // TODO inject Upload URL
+            'evidenceId' => $evidence->id,
+            'upload' => [
+                'url' => $upload->getFormAttributes()['action'],
+                'fields' => $upload->getFormInputs(),
+            ],
         ];
     }
 
-    public function update(EvidenceUpdateRequest $request)
+    public function update(EvidenceUpdateRequest $request, Filesystem $disk)
     {
-        // TODO check presence in S3
         $evidence = $request->evidence();
         $evidence->status = $request->validated()['status'];
+        if ($evidence->status->equals(EvidenceStatusEnum::present())) {
+            // check presence in S3 bucket
+            if (!$disk->exists($evidence->key)) {
+                throw new BadRequestHttpException('File not yet present in S3');
+            }
+        }
         $evidence->save();
     }
 
-    public function destroy(EvidenceDestroyRequest $request)
+    public function destroy(EvidenceDestroyRequest $request, Filesystem $disk)
     {
-        // TODO delete the file in S3
-        $request->evidence()->delete();
+        $evidence = $request->evidence();
+        $evidence->delete();
+
+        // status might be out of sync - try to delete always
+        $disk->delete($evidence->key);
     }
 }

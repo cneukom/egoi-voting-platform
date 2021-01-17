@@ -1,11 +1,17 @@
 @php
-    /** @var \App\Models\Evidence[] $evidences */
+    /**
+     * @var \App\Models\Evidence[] $evidences
+     * @var \App\Models\Enums\EvidenceTypeEnum $evidenceType
+     * @var string $inputId
+     */
 @endphp
 
-<div class="videos">
+<div class="videos" data-evidence-type="{{ $evidenceType->value }}">
+    <label for="{{ $inputId }}" class="video-drop-label"></label>
+
     <ul class="list-group">
         @foreach($evidences as $evidence)
-            <li class="list-group-item list-group-item-action" data-id="{{ $evidence->id }}">
+            <li class="list-group-item" data-id="{{ $evidence->id }}">
                 <span data-evidence>{{ $evidence->filename }}</span>
                 @if($evidence->status->equals(\App\Models\Enums\EvidenceStatusEnum::created()))
                     <span class="text-muted">({{ __('app.evidence.status.created') }})</span>
@@ -17,4 +23,7 @@
             </li>
         @endforeach
     </ul>
+
+    <p class="drag-notice">{{ __('app.evidence.drag_or_click') }}</p>
+    <input class="hidden" type="file" accept="video/*" id="{{ $inputId }}"/>
 </div>

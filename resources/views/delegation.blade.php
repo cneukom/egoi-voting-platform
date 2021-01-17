@@ -13,11 +13,11 @@
             <div class="row mb-5">
                 <div class="col-6">
                     <h3>{{ __('app.evidence.screenCaptures') }}</h3>
-                    <x-evidence-widget :evidences="$contestant->screenCaptures"/>
+                    <x-evidence-widget :evidences="$contestant->screenCaptures" :type="App\Models\Enums\EvidenceTypeEnum::screenCapture()"/>
                 </div>
                 <div class="col-6">
                     <h3>{{ __('app.evidence.workScenes') }}</h3>
-                    <x-evidence-widget :evidences="$contestant->workScenes"/>
+                    <x-evidence-widget :evidences="$contestant->workScenes" :type="App\Models\Enums\EvidenceTypeEnum::workScene()"/>
                 </div>
             </div>
         </div>

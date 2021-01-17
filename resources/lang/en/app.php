@@ -14,6 +14,7 @@ return [
             'created' => 'being uploaded',
             'present' => 'uploaded',
         ],
+        'drag_or_click' => 'Drag or click here to upload evidence.',
     ],
     'modal' => [
         'delete' => [
