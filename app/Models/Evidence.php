@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property EvidenceStatusEnum $status
  * @property EvidenceTypeEnum $type
  * @property string $filename
+ * @property-read string|null $extension
  * @property-read string $key
  * @property-read Contestant $contestant
  */
@@ -30,8 +31,16 @@ class Evidence extends Model
         return $this->belongsTo(Contestant::class);
     }
 
+    public function getExtensionAttribute(): ?string
+    {
+        if (preg_match('/\.([^.]+)$/', $this->filename, $matches)) {
+            return $matches[1];
+        }
+        return null;
+    }
+
     public function getKeyAttribute(): string
     {
-        return $this->contestant->delegation->code . '/' . $this->contestant->code . '/' . $this->type->value . '_' . $this->id;
+        return $this->contestant->delegation->code . '/' . $this->contestant->code . '/' . $this->type->value . '_' . $this->id . rtrim('.' . $this->extension, '.');
     }
 }
