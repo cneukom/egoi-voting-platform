@@ -22,6 +22,9 @@ Route::get('/', function () {
 Route::get('/delegation/{delegation}/{token}/', [EvidenceController::class, 'index']);
 
 Route::get('/delegations', [EvidenceController::class, 'overview'])->middleware('auth');
+Route::get('/screen/{evidence}', [EvidenceController::class, 'screen'])
+    ->middleware('auth')
+    ->name('screen');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')

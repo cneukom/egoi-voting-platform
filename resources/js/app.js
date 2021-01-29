@@ -1,5 +1,3 @@
-import initOverview from "./overview";
-
 require('./bootstrap');
 import 'bootstrap';
 import initDelegation from './delegations';
@@ -10,8 +8,5 @@ $(function () {
     if (matches) {
         axios.defaults.baseURL = '/api/delegation/' + matches[1] + '/' + matches[2] + '/';
         initDelegation();
-    } else if(location.pathname === '/delegations') {
-        axios.defaults.baseURL = '/api/';
-        initOverview();
     }
 });

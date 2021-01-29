@@ -14,13 +14,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class EvidenceController extends Controller
 {
-    public function view(Evidence $evidence, Filesystem $disk)
-    {
-        return [
-            'url' => $disk->temporaryUrl($evidence->key, now()->addHour())
-        ];
-    }
-
     public function store(EvidenceStoreRequest $request, S3AjaxUploadService $uploadService): array
     {
         $data = $request->validated();

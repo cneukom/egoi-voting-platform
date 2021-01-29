@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DelegationRequest;
 use App\Models\Delegation;
+use App\Models\Evidence;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EvidenceController extends Controller
@@ -26,6 +28,13 @@ class EvidenceController extends Controller
                     'contestants.workScenes' => fn(HasMany $query) => $query->orderBy('id'),
                 ])
                 ->get(),
+        ]);
+    }
+
+    public function screen(Evidence $evidence, Filesystem $disk)
+    {
+        return view('screen', [
+            'evidenceUrl' => $disk->temporaryUrl($evidence->key, now()->addHour()),
         ]);
     }
 }
