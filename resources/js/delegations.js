@@ -15,8 +15,13 @@ function cancelEvidence(cancel, $evidenceView) {
     return () => {
         cancel.cancel();
         if ($evidenceView.data('id')) {
-            $evidenceView.find('.progress').remove();
-            deleteEvidence($evidenceView);
+            const $progress = $evidenceView.find('.progress');
+            if($progress.length) {
+                $progress.remove();
+                deleteEvidence($evidenceView);
+            } else {
+                confirmDeleteEvidence($evidenceView);
+            }
         } else {
             $evidenceView.remove();
         }
