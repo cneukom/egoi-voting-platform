@@ -11,7 +11,7 @@
 
     <ul class="list-group">
         @foreach($evidences as $evidence)
-            <li class="list-group-item" data-id="{{ $evidence->id }}">
+            <li class="list-group-item" data-id="{{ $evidence->id }}" draggable="true">
                 <span data-evidence>{{ $evidence->filename }}</span>
                 @if($evidence->status->equals(\App\Models\Enums\EvidenceStatusEnum::created()))
                     <span class="text-muted">({{ __('app.evidence.status.created') }})</span>

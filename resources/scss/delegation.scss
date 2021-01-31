@@ -33,11 +33,16 @@
         display: block;
         cursor: pointer;
     }
+
     > .hidden {
         display: none;
     }
 }
 
-.list-group-item:hover {
-    background-color: #f8f9fa;
+.list-group-item {
+    cursor: default;
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
 }

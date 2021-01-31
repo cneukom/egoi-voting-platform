@@ -36,7 +36,18 @@ class InitializeEvidence extends Migration
             $table->enum('status', ['created', 'present']);
             $table->enum('type', ['screenCapture', 'workScene']);
             $table->text('filename');
+            $table->foreignId('delegation_id')->references('id')->on('delegations');
+        });
+
+        Schema::create('contestant_evidence', function (Blueprint $table) {
             $table->foreignId('contestant_id')->references('id')->on('contestants');
+            $table->foreignId('delegation_id')->references('id')->on('delegations');
+            $table->foreignId('evidence_id')->references('id')->on('evidence');
+            $table->primary(['contestant_id', 'evidence_id']);
+
+            // ensure that evidence provided by one delegation cannot be assigned to another delegation
+            $table->foreign(['delegation_id', 'contestant_id'])->references(['delegation_id', 'id'])->on('contestants');
+            $table->foreign(['delegation_id', 'evidence_id'])->references(['delegation_id', 'id'])->on('evidence');
         });
     }
 
@@ -48,6 +59,7 @@ class InitializeEvidence extends Migration
     public function down()
     {
         Schema::dropIfExists('delegations');
+        Schema::dropIfExists('contestant_evidence');
         Schema::dropIfExists('contestants');
         Schema::dropIfExists('evidence');
     }

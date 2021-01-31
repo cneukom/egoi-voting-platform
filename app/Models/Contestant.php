@@ -8,7 +8,7 @@ use App\Models\Enums\EvidenceTypeEnum;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string $name
@@ -28,17 +28,17 @@ class Contestant extends Model
         return $this->belongsTo(Delegation::class);
     }
 
-    public function screenCaptures(): HasMany
+    public function screenCaptures(): BelongsToMany
     {
         return $this->evidence()->where('type', EvidenceTypeEnum::screenCapture());
     }
 
-    public function evidence(): HasMany
+    public function evidence(): BelongsToMany
     {
-        return $this->hasMany(Evidence::class);
+        return $this->belongsToMany(Evidence::class);
     }
 
-    public function workScenes(): HasMany
+    public function workScenes(): BelongsToMany
     {
         return $this->evidence()->where('type', EvidenceTypeEnum::workScene());
     }

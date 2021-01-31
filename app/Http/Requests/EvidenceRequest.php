@@ -23,7 +23,7 @@ class EvidenceRequest extends FormRequest
         $token = $this->route()->parameter('token');
 
         if ($this->evidence()) { // if present, Evidence must belong to the Contestant
-            if (!$this->evidence()->contestant->is($this->contestant())) {
+            if (!$this->evidence()->contestants()->find($this->contestant())) {
                 return false;
             }
         }

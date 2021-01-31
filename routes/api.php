@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/delegation/{delegation}/{token}/contestants/{contestant}/evidence', EvidenceController::class)
     ->only(['store', 'update', 'destroy']);
+Route::post('/delegation/{delegation}/{token}/contestants/{contestant}/evidence/link', [EvidenceController::class, 'link']);
 Route::resource('/contestant/{contestant}/{token}/evidence', EvidenceController::class)
     ->only(['store', 'update']);

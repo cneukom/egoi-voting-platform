@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class EvidenceDestroyRequest extends EvidenceRequest
+class EvidenceLinkRequest extends EvidenceRequest
 {
     public function authorize(): bool
     {
@@ -10,7 +10,7 @@ class EvidenceDestroyRequest extends EvidenceRequest
             return false;
         }
 
-        // Only delegation leaders can destroy Evidence
+        // Only delegation leaders can link Evidence to other participants
         return $this->delegation() !== null;
     }
 }

@@ -6,8 +6,10 @@ namespace App\Models;
 use App\Models\Docs\ModelDocs;
 use App\Models\Enums\EvidenceStatusEnum;
 use App\Models\Enums\EvidenceTypeEnum;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property EvidenceStatusEnum $status
@@ -15,7 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $filename
  * @property-read string|null $extension
  * @property-read string $key
- * @property-read Contestant $contestant
+ * @property-read Delegation $delegation
+ * @property-read Collection|Contestant[] $contestants
  */
 class Evidence extends Model
 {
@@ -26,9 +29,14 @@ class Evidence extends Model
         'type' => EvidenceTypeEnum::class,
     ];
 
-    public function contestant(): BelongsTo
+    public function delegation(): BelongsTo
     {
-        return $this->belongsTo(Contestant::class);
+        return $this->belongsTo(Delegation::class);
+    }
+
+    public function contestants(): BelongsToMany
+    {
+        return $this->belongsToMany(Contestant::class);
     }
 
     public function getExtensionAttribute(): ?string
@@ -41,6 +49,6 @@ class Evidence extends Model
 
     public function getKeyAttribute(): string
     {
-        return $this->contestant->delegation->code . '/' . $this->contestant->code . '/' . $this->type->value . '_' . $this->id . rtrim('.' . $this->extension, '.');
+        return $this->delegation->code . '/'. $this->type->value . '_' . $this->id . rtrim('.' . $this->extension, '.');
     }
 }

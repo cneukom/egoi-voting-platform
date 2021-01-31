@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Evidence from "./models/Evidence";
 
 let $deleteEvidenceModal;
 
@@ -7,16 +8,19 @@ function handleErrorWithEvidence($evidenceView) {
         if (!axios.isCancel(thrown)) {
             $evidenceView.find('.progress').remove();
             $evidenceView.addClass('text-danger bg-warning');
+            $evidenceView[0].draggable = false;
         }
     };
 }
 
-function cancelEvidence(cancel, $evidenceView) {
-    return () => {
-        cancel.cancel();
+function cancelEvidence(cancel) {
+    return ($evidenceView) => {
+        if (cancel) {
+            cancel.cancel();
+        }
         if ($evidenceView.data('id')) {
             const $progress = $evidenceView.find('.progress');
-            if($progress.length) {
+            if ($progress.length) {
                 $progress.remove();
                 deleteEvidence($evidenceView);
             } else {
@@ -47,19 +51,49 @@ function deleteEvidence($evidence) {
     $evidence.append('<div class="spinner-border spinner-border-sm float-right text-primary" role="status"><span class="sr-only">Loading...</span></div>');
     axios.delete('contestants/' + contestantId + '/evidence/' + evidenceId)
         .then(() => $evidence.remove())
-        .catch(handleErrorWithEvidence($evidence));
+        .catch((error) => {
+            if (error.response.status === 403) {
+                // that's fine: we are not allowed to delete the evidence because it's not associated to the contestant
+                $evidence.remove();
+            } else {
+                handleErrorWithEvidence($evidence)(error);
+            }
+        });
 }
 
+// checks whether the evidence linked to drag event can be accepted by a drop zone
+// note, we cannot distinguish mimetypes before the files are dropped
+function canAcceptEvidence($dropZone, evidence) {
+    if (evidence) {
+        if (evidence.type !== $dropZone.data('evidenceType')) {
+            return false; // cannot re-use screenCapture as workScene and vice-versa
+        }
+
+        // can link evidence exactly once with each participant
+        return $dropZone.find('[data-id="' + evidence.id + '"]').length === 0;
+    }
+    // otherwise, it might be a video, hence
+    return true;
+}
+
+// give feedback to the user if we can accept an evidence
+function initAcceptEvidence() {
+    $('.videos').on('dragover', function (event) {
+        const $this = $(this);
+        const evidence = Evidence.parse(event.originalEvent.dataTransfer.getData('application/x-egoi-evidence'));
+        if (canAcceptEvidence($this, evidence)) {
+            $this.addClass('hovered');
+        }
+    }).on('dragleave', function () {
+        $(this).removeClass('hovered');
+    });
+}
+
+// when video files are dropped, upload them to the S3 bucket
 function initUploadEvidence() {
     $('.videos').on('drop', function (event) {
         $(this).removeClass('hovered');
         uploadFiles.call(this, event.originalEvent.dataTransfer.files);
-    }).on('dragenter', function () {
-        $(this).addClass('hovered');
-    }).on('dragover', function () {
-        $(this).addClass('hovered');
-    }).on('dragleave', function () {
-        $(this).removeClass('hovered');
     });
 
     $('.videos input[type="file"].hidden').on('change', function () {
@@ -85,7 +119,8 @@ function initUploadEvidence() {
 
         const cancel = axios.CancelToken.source();
         const withCancel = {cancelToken: cancel.token};
-        const $evidenceView = makeEvidenceView(file.name, $(this).find('ul'), cancel);
+        const evidence = new Evidence(null, null, file.name);
+        const $evidenceView = evidence.makeView($(this).find('ul'), cancelEvidence(cancel));
         const $progressBar = $evidenceView.find('.progress-bar');
 
         axios.post('contestants/' + contestantId + '/evidence', {
@@ -118,20 +153,6 @@ function initUploadEvidence() {
         return true;
     }
 
-    function makeEvidenceView(evidenceName, $parent, cancel) {
-        const $evidenceView = $('<li class="list-group-item">' +
-            '  <span data-evidence></span>' +
-            '  <a class="float-right delete-evidence" href="javascript:">×</a>' +
-            '  <div class="progress">' +
-            '    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0"></div>' +
-            '  </div>' +
-            '</li>');
-        $evidenceView.find('[data-evidence]').text(evidenceName);
-        $evidenceView.find('.delete-evidence').on('click', cancelEvidence(cancel, $evidenceView));
-        $parent.append($evidenceView);
-        return $evidenceView;
-    }
-
     function trackProgress($progressBar, options) {
         return {
             ...options,
@@ -140,8 +161,10 @@ function initUploadEvidence() {
             },
         };
     }
+}
 
-    // prevent the browser from displaying the file when dropping a file accidentally outside of a drop zone
+// prevent the browser from displaying the file when dropping a file (accidentally) outside of a drop zone
+function preventNavigationOnDrop() {
     addEventListener('drop', (event) => event.preventDefault());
     addEventListener('dragenter', (event) => event.preventDefault());
     addEventListener('dragover', (event) => event.preventDefault());
@@ -160,7 +183,37 @@ function initDeleteEvidence() {
     });
 }
 
+// when evidence is dropped, link it to
+function initLinkEvidence() {
+    $('.videos').on('drop', function (event) {
+        const $this = $(this);
+        const evidence = Evidence.parse(event.originalEvent.dataTransfer.getData('application/x-egoi-evidence'));
+        if (evidence && canAcceptEvidence($this, evidence)) {
+            const contestantId = $(this).parents('[data-contestant-id]').data('contestantId');
+            const $evidenceView = evidence.makeView($this, cancelEvidence(null));
+            const $progressBar = $evidenceView.find('.progress');
+            axios.post('contestants/' + contestantId + '/evidence/link', {evidenceId: evidence.id})
+                .then(() => $progressBar.remove())
+                .catch(handleErrorWithEvidence($evidenceView));
+        }
+    });
+
+    addEventListener('dragstart', function (event) {
+        const $evidence = $(event.originalTarget);
+        const evidence = new Evidence(
+            $evidence.data('id'),
+            $evidence.parents('[data-evidence-type]').data('evidenceType'),
+            $evidence.find('[data-evidence]').text(),
+        );
+        event.dataTransfer.setData('application/x-egoi-evidence', evidence.stringify());
+        event.dataTransfer.dropEffect = 'link';
+    });
+}
+
 export default function initDelegation() {
+    initAcceptEvidence();
     initUploadEvidence();
     initDeleteEvidence();
+    initLinkEvidence();
+    preventNavigationOnDrop();
 }

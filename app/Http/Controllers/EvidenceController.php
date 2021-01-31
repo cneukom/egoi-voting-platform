@@ -6,6 +6,7 @@ use App\Http\Requests\DelegationRequest;
 use App\Models\Delegation;
 use App\Models\Evidence;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EvidenceController extends Controller
@@ -24,8 +25,8 @@ class EvidenceController extends Controller
                 ->orderBy('name')
                 ->with([
                     'contestants' => fn(HasMany $query) => $query->orderBy('name'),
-                    'contestants.screenCaptures' => fn(HasMany $query) => $query->orderBy('id'),
-                    'contestants.workScenes' => fn(HasMany $query) => $query->orderBy('id'),
+                    'contestants.screenCaptures' => fn(BelongsToMany $query) => $query->orderBy('id'),
+                    'contestants.workScenes' => fn(BelongsToMany $query) => $query->orderBy('id'),
                 ])
                 ->get(),
         ]);
