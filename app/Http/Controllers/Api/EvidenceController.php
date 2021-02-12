@@ -49,7 +49,8 @@ class EvidenceController extends Controller
         try {
             $evidence->contestants()->attach($request->contestant(), ['delegation_id' => $request->delegation()->id]);
         } catch(QueryException $exception) {
-            if ((int)$exception->getCode() !== 23000) {
+            // Duplicate key error means that somebody else already has linked the evidence to the contestant - ignore it
+            if ((int)$exception->getCode() !== 23000 || $exception->errorInfo[1] !== 1062) {
                 throw $exception;
             }
         }
@@ -76,7 +77,7 @@ class EvidenceController extends Controller
         try {
             $evidence->delete();
         } catch (QueryException $e) {
-            if ((int)$e->getCode() === 23000) {
+            if ((int)$e->getCode() === 23000 && $e->errorInfo[1] === 1451) {
                 return; // Evidence is in use for another Contestant, don't delete the file yet
             }
             throw $e;
