@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\EvidenceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +12,3 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::resource('/delegation/{delegation}/{token}/contestants/{contestant}/evidence', EvidenceController::class)
-    ->only(['store', 'update', 'destroy']);
-Route::post('/delegation/{delegation}/{token}/contestants/{contestant}/evidence/link', [EvidenceController::class, 'link']);
-Route::resource('/contestant/{contestant}/{token}/evidence', EvidenceController::class)
-    ->only(['store', 'update']);

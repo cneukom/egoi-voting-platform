@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'EGOI Video Evidence Platform',
+    'name' => config('app.name'),
     'contestant' => [
         'label' => 'Contestant',
     ],

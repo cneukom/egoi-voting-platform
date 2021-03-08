@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\EvidenceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/delegation/{delegation}/{token}/', [EvidenceController::class, 'index']);
-
-Route::get('/delegations', [EvidenceController::class, 'overview'])->middleware('auth');
-Route::get('/screen/{evidence}', [EvidenceController::class, 'screen'])
-    ->middleware('auth')
-    ->name('screen');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')
