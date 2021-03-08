@@ -43,5 +43,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->makeDelegation('Switzerland', 'CH');
         $this->makeDelegation('Italy', 'IT');
+        $this->makeDelegation('France', 'FR');
+        $this->makeDelegation('Germany', 'DE');
     }
 }
