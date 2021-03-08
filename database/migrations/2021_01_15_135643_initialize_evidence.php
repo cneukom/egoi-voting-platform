@@ -27,6 +27,7 @@ class InitializeEvidence extends Migration
             $table->text('name');
             $table->string('code', 5);
             $table->string('access_token', 256)->unique();
+            $table->unique(['delegation_id', 'id']);
             $table->foreignId('delegation_id')->references('id')->on('delegations');
         });
 
@@ -36,6 +37,7 @@ class InitializeEvidence extends Migration
             $table->enum('status', ['created', 'present']);
             $table->enum('type', ['screenCapture', 'workScene']);
             $table->text('filename');
+            $table->unique(['delegation_id', 'id']);
             $table->foreignId('delegation_id')->references('id')->on('delegations');
         });
 
