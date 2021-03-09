@@ -21,7 +21,6 @@ services:
             - pgsql
     pgsql:
         image: 'postgres:13'
-        restart: always
         environment:
             POSTGRES_PASSWORD: '${DB_PASSWORD}'
             POSTGRES_DB: '${DB_DATABASE}'
@@ -33,7 +32,6 @@ services:
             - 'sailpgsql:/var/lib/postgresql/data'
     adminer:
         image: adminer
-        restart: always
         ports:
             - 8081:8080
         networks:
