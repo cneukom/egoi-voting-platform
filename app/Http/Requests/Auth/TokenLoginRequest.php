@@ -20,7 +20,7 @@ class TokenLoginRequest extends LoginRequest
         return [];
     }
 
-    public function authenticate(): User
+    public function authenticate()
     {
         if (empty($this->token)) { // we should not be routed here in this case
             throw new Exception('Route misconfigured: TokenLoginRequest must not be used without a token.');
@@ -37,6 +37,5 @@ class TokenLoginRequest extends LoginRequest
         RateLimiter::clear($this->throttleKey());
 
         Auth::login($user);
-        return $user;
     }
 }

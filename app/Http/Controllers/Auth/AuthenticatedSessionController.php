@@ -29,11 +29,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $user = $request->authenticate();
+        $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect(RouteServiceProvider::redirectTarget($user));
+        return redirect(RouteServiceProvider::redirectTarget());
     }
 
     public function enter(TokenLoginRequest $request)

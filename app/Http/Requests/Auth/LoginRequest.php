@@ -42,7 +42,7 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): User
+    public function authenticate()
     {
         $this->ensureIsNotRateLimited();
 
@@ -55,8 +55,6 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
-
-        return Auth::user();
     }
 
     /**
