@@ -84,6 +84,6 @@ class User extends Authenticatable
 
     public function answeredQuestions(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class, 'option_question_user');
+        return $this->belongsToMany(Question::class, 'option_question_user')->using(OptionQuestionUser::class);
     }
 }
