@@ -2,28 +2,20 @@
 
 return [
     'name' => config('app.name'),
-    'contestant' => [
-        'label' => 'Contestant',
-    ],
-    'evidence' => [
-        'label' => 'File name',
-        'overview' => 'Video Evidence Overview',
-        'screenCaptures' => 'Screen Captures',
-        'workScenes' => 'Work Scenes',
-        'status' => [
-            'created' => 'being uploaded',
-            'present' => 'uploaded',
-        ],
-        'drag_or_click' => 'Drag or click here to upload evidence.',
-    ],
-    'modal' => [
-        'delete' => [
-            'title' => 'Remove Evidence',
-            'message' => 'Are you sure to permanently remove the following evidence?',
-        ],
-        'actions' => [
-            'cancel' => 'Cancel',
-            'delete' => 'Delete',
-        ],
+    'voting' => [
+        'open_votes' => 'Open Votes',
+        'closed_votes' => 'Past Votes',
+        'question' => 'Question',
+        'selected_option' => 'Selected option',
+        'votes' => 'Votes',
+        'undecided' => 'tie',
+        'closed_at' => 'Closed at',
+        'closes_at' => 'Due by',
+        'closes_at_format' => 'H:i',
+        'action' => 'Action',
+        'vote' => 'Go to vote',
+        'voted' => 'Voted already',
+        'create' => 'Create Vote',
+        'results' => 'View results',
     ],
 ];

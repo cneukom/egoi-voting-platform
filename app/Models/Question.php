@@ -38,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Question open()
  * @property-read Option|null $selected_option Don't use this without eager loading the options.voteCount relation!
  * @property-read int $total_votes Don't use this without eager loading the options.voteCount relation!
+ * @method static Builder|Question didntVote(User $user)
+ * @method static Builder|Question hasVoted(User $user)
  */
 class Question extends Model
 {
@@ -117,5 +119,19 @@ class Question extends Model
     public function scopeClosed(Builder $query): Builder
     {
         return $query->where('closes_at', '<=', now());
+    }
+
+    public function scopeHasVoted(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('participatingUsers', function(Builder $query) use ($user) {
+            return $query->where('user_id', $user->id);
+        });
+    }
+
+    public function scopeDidntVote(Builder $query, User $user): Builder
+    {
+        return $query->whereDoesntHave('participatingUsers', function(Builder $query) use ($user) {
+            return $query->where('user_id', $user->id);
+        });
     }
 }

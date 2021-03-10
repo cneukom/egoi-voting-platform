@@ -13,9 +13,6 @@ class RouteServiceProvider extends ServiceProvider
 {
     public static function redirectTarget(User $user): string
     {
-        if ($user->is_admin) {
-            return route('admin.voting.index');
-        }
         return route('voting.index');
     }
 

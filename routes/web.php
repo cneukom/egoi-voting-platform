@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Vote\VotingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,3 +33,24 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+Route::get('/votes', [VotingController::class, 'index'])
+    ->middleware('auth')
+    ->name('voting.index');
+
+Route::get('/votes/{question}/results', [VotingController::class, 'results'])
+    ->middleware('auth')
+    ->name('voting.results');
+
+Route::get('/votes/{question}/vote', [VotingController::class, 'vote'])
+    ->middleware('nonAdmin')
+    ->name('voting.vote');
+
+Route::post('/votes/{question}/vote', [VotingController::class, 'storeVote'])
+    ->middleware('nonAdmin');
+
+Route::get('/votes/create', [VotingController::class, 'create'])
+    ->middleware('admin')
+    ->name('voting.create');
+
+Route::post('/votes/create', [VotingController::class, 'store'])
+    ->middleware('admin');
