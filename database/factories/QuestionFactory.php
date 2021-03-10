@@ -24,7 +24,7 @@ class QuestionFactory extends Factory
         return [
             'question' => $this->faker->sentence,
             'information' => $this->faker->text,
-            'closes_at' => $this->faker->dateTimeThisMonth,
+            'closes_at' => $this->faker->dateTimeBetween('-10 hours', '+10 hours'),
         ];
     }
 }
