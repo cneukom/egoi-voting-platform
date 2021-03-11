@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::directive('votePercentage', function ($option) {
-            return "<?= number_format(($option)->vote_count / ($option)->question->total_votes * 100, 2); ?>&nbsp;%";
+            return "<?= ($option)->question->total_votes === 0 ? 'N/A' : number_format(($option)->vote_count / ($option)->question->total_votes * 100, 2) . '&nbsp;%'; ?>";
         });
     }
 }
