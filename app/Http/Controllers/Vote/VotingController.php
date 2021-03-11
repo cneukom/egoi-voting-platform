@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vote;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +21,20 @@ class VotingController extends Controller
 
     public function create()
     {
-        // TODO show question form
+        return view('vote.create');
     }
 
-    public function store()
+    public function store(QuestionRequest $request)
     {
-        // TODO store the question
+        $data = $request->validated();
+
+        if ($request->has('confirm')) {
+            $question = Question::create($data);
+            $question->options()->createMany(array_map(fn($label) => ['label' => $label], $data['options']));
+            return redirect(route('voting.index'));
+        } else {
+            return view('vote.confirm_create', $data);
+        }
     }
 
     public function vote()

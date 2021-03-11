@@ -229,4 +229,6 @@ return [
 
     ],
 
+    'default_vote_duration' => env('DEFAULT_VOTE_DURATION', 15),
+
 ];

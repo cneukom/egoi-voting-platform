@@ -49,6 +49,8 @@ class Question extends Model
         'closes_at',
     ];
 
+    protected $fillable = ['closes_at', 'question', 'information'];
+
     public function options(): HasMany
     {
         return $this->hasMany(Option::class);

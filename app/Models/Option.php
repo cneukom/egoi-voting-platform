@@ -40,6 +40,8 @@ class Option extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['label'];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);

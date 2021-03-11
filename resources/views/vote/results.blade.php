@@ -18,7 +18,9 @@
 
     <h2>{{ $vote->question }}</h2>
 
-    <p>{{ nl2br($vote->information) }}</p>
+    @if($vote->information)
+        <p class="text-pre-wrap">{{ $vote->information }}</p>
+    @endif
 
     <div class="accordion mt-5" id="accordionExample">
         @foreach($options_sorted as $option)

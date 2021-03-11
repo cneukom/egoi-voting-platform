@@ -28,4 +28,23 @@ return [
         'no_votes' => '(Nobody voted for this option)',
         'back' => 'Back to overview',
     ],
+    'create' => [
+        'create_vote' => 'Create Vote',
+        'instructions' => [
+            'basic' => 'To create a new vote, supply at least a question and two answer options.',
+            'voting_deadline' => 'The vote starts immediately and results will only be visible after the vote has been closed. You can close a vote early as soon as everybody has voted.',
+        ],
+        'confirm' => 'You are about to open a vote. The vote will start immediately and you cannot make any changes once the vote has started. Please review the voting details carefully. The voting duration will only start when the vote is opened.',
+        'question' => 'Question',
+        'information' => 'Additional information',
+        'optional' => 'optional',
+        'duration' => 'Voting duration',
+        'duration_unit' => 'minutes',
+        'closes_at_approx' => '(approximately at :time)',
+        'options' => 'Answer options',
+        'option' => 'Answer option',
+        'next' => 'Next step',
+        'back' => 'Back',
+        'create' => 'Create & Open Vote',
+    ],
 ];

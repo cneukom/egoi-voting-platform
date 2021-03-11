@@ -131,8 +131,12 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'options' => [
+            'min' => 'There must be at least :min :attribute.',
+            'required' => 'There must be at least 2 :attribute.',
+        ],
+        'options.*' => [
+            'string' => 'Each option must be a string.',
         ],
     ],
 

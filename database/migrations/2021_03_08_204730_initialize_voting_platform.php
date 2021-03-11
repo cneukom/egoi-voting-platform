@@ -23,7 +23,7 @@ class InitializeVotingPlatform extends Migration
             $table->id();
             $table->timestamps();
             $table->text('question');
-            $table->longText('information');
+            $table->longText('information')->nullable();
             $table->dateTime('closes_at');
         });
 
