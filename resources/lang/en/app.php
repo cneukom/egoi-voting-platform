@@ -3,6 +3,11 @@
 return [
     'name' => config('app.name'),
     'voting' => [
+        'info' => [
+            'no_open_votes_voter' => 'There\'s no ongoing vote currently. We\'ll inform you in your Keybase group chat as soon as a new vote is published.',
+            'no_open_votes_admin' => 'There\'s no ongoing vote currently. Use the button above to open a new vote.',
+            'no_closed_votes' => 'No past votes yet. Once a vote is closed, we\'ll show the results here.',
+        ],
         'open_votes' => 'Open Votes',
         'closed_votes' => 'Past Votes',
         'question' => 'Question',
