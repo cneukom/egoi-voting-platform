@@ -38,8 +38,13 @@ class VotingController extends Controller
         // TODO vote (write VotingRequest)
     }
 
-    public function show($id)
+    public function results(Question $question)
     {
-        // TODO show voting details
+        $question->load(['options.voteCount', 'options.voters']);
+
+        return view('vote.results', [
+            'vote' => $question,
+            'options_sorted' => $question->options->sortByDesc(fn($a) => $a->vote_count),
+        ]);
     }
 }

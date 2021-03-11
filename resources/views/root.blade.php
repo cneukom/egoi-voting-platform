@@ -11,7 +11,8 @@
 <body>
 <div class="navbar navbar-light bg-light sticky-top mb-5">
     <div class="container">
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand"
+           @auth href="{{ route('voting.index') }}" @elseauth href="/" @endauth>
             <img class="logo" alt="{{ __('app.name') }}" src="{{ asset('images/logo.svg') }}"/>
         </a>
 

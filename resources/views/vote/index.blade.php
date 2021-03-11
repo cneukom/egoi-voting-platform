@@ -76,7 +76,7 @@
                     <td>{{ $vote->question }}</td>
                     @if($vote->selected_option)
                         <td>{{ $vote->selected_option->label }}</td>
-                        <td>{{ number_format($vote->selected_option->vote_count / $vote->total_votes * 100, 2) }} %</td>
+                        <td>@votePercentage($vote->selected_option)</td>
                     @else
                         <td class="text-black-50">{{ __('app.voting.undecided') }}</td>
                         <td class="text-black-50">&mdash;</td>

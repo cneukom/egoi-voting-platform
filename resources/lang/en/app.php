@@ -23,4 +23,9 @@ return [
         'create' => 'Create Vote',
         'results' => 'View results',
     ],
+    'results' => [
+        'results' => 'Voting Results',
+        'no_votes' => '(Nobody voted for this option)',
+        'back' => 'Back to overview',
+    ],
 ];
