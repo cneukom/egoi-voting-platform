@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Some EGOI Tool'),
+    'name' => env('APP_NAME', 'EGOI Voting Platform'),
 
     /*
     |--------------------------------------------------------------------------
