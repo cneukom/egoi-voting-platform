@@ -3,17 +3,26 @@
 namespace App\Http\Controllers\Vote;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CloseQuestionRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\VoteRequest;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VotingController extends Controller
 {
     public function index()
     {
+        $openVotesDidntVote = Question::open()->didntVote(Auth::user())->orderBy('closes_at');
+        if (Auth::user()->is_admin) {
+            $openVotesDidntVote->withCount('participatingUsers');
+            $totalVotersCount = User::whereIsAdmin(false)->count();
+        }
+
         return view('vote.index', [
-            'openVotesDidntVote' => Question::open()->didntVote(Auth::user())->orderBy('closes_at')->get(),
+            'totalVotersCount' => $totalVotersCount ?? 0,
+            'openVotesDidntVote' => $openVotesDidntVote->get(),
             'openVotesVoted' => Question::open()->hasVoted(Auth::user())->orderBy('closes_at')->get(),
             'closedVotes' => Question::closed()->with('options.voteCount')->orderBy('closes_at', 'DESC')->get(),
         ]);
@@ -35,6 +44,14 @@ class VotingController extends Controller
         } else {
             return view('vote.confirm_create', $data);
         }
+    }
+
+    public function close(Question $question, CloseQuestionRequest $request) // $request is needed for authorization
+    {
+        $question->closes_at = now();
+        $question->save();
+
+        return redirect(route('voting.index'));
     }
 
     public function vote(Question $question)

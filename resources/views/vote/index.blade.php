@@ -3,6 +3,7 @@
 @php
     use App\Models\Question;
     /**
+     * @var int $totalVotersCount
      * @var Question[] $openVotesVoted
      * @var Question[] $openVotesDidntVote
      * @var Question[] $closedVotes
@@ -29,7 +30,9 @@
             <tr>
                 <th>{{ __('app.voting.question') }}</th>
                 <th>{{ __('app.voting.closes_at') }}</th>
-                @if(!Auth::user()->is_admin)
+                @if(Auth::user()->is_admin)
+                    <th>{{ __('app.voting.participation') }}</th>
+                @else
                     <th>{{ __('app.voting.action') }}</th>
                 @endif
             </tr>
@@ -38,10 +41,20 @@
                 <tr>
                     <td>{{ $vote->question }}</td>
                     <td>{{ $vote->closes_at->format(__('app.voting.closes_at_format')) }}</td>
-                    @if(!Auth::user()->is_admin)
-                        <td><a href="{{ route('voting.vote', ['question' => $vote]) }}">{{ __('app.voting.vote') }}</a>
-                        </td>
-                    @endif
+                    <td>
+                        @if(Auth::user()->is_admin)
+                            @if($vote->participating_users_count === $totalVotersCount)
+                                {{ __('app.voting.complete') }}
+                                (<a href="javascript:" data-close-vote>{{ __('app.voting.close') }}</a>)
+                                <form action="{{ route('voting.close', ['question' => $vote]) }}" method="post">@csrf
+                                </form>
+                            @else
+                                {{ $vote->participating_users_count }} / {{ $totalVotersCount }}
+                            @endif
+                        @else
+                            <a href="{{ route('voting.vote', ['question' => $vote]) }}">{{ __('app.voting.vote') }}</a>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
 

@@ -54,3 +54,7 @@ Route::get('/votes/create', [VotingController::class, 'create'])
 
 Route::post('/votes/create', [VotingController::class, 'store'])
     ->middleware('admin');
+
+Route::post('/votes/{question}/close', [VotingController::class, 'close'])
+    ->middleware('admin')
+    ->name('voting.close');

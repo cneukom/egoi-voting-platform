@@ -22,6 +22,9 @@ return [
         'voted' => 'Voted already',
         'create' => 'Create Vote',
         'results' => 'View results',
+        'participation' => 'Participation',
+        'complete' => 'complete',
+        'close' => 'close now',
     ],
     'results' => [
         'results' => 'Voting Results',
