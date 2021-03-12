@@ -42,3 +42,37 @@ label {
 .text-pre-wrap {
     white-space: pre-wrap;
 }
+
+.vote-option {
+    > input {
+        position: absolute;
+        left: -100px;
+        max-width: 100px;
+        overflow: hidden;
+    }
+
+    > label {
+        display: block;
+        padding: .5em .8em;
+        border: $border-color $border-width solid;
+        cursor: pointer;
+
+        > .selected {
+            display: none;
+        }
+    }
+
+    > input:checked + label {
+        background: $light;
+        border-color: $dark;
+
+        > .selected {
+            color: $success;
+            display: inline-block;
+        }
+    }
+
+    > input:focus + label {
+        border: 1px dotted $dark;
+    }
+}

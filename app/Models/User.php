@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Question::class, 'option_question_user')->using(OptionQuestionUser::class);
     }
+
+    public function hasParticipated(Question $question): bool
+    {
+        return $question->participatingUsers()->where('user_id', $this->id)->exists();
+    }
 }

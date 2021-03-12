@@ -47,4 +47,18 @@ return [
         'back' => 'Back',
         'create' => 'Create & Open Vote',
     ],
+    'vote' => [
+        'vote' => 'Vote',
+        'back' => 'Back to overview',
+        'instructions' => 'The voting deadline is at :time. You have one vote and cannot change it once submitted.',
+        'submit' => 'Vote now',
+    ],
+    'vote_closed' => [
+        'vote_closed' => 'Vote closed',
+        'message' => 'You can not vote anymore, as this vote has been closed at :time.',
+    ],
+    'vote_participated' => [
+        'vote_participated' => 'Already participated',
+        'message' => 'You already participated in this vote.',
+    ],
 ];

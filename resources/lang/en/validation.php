@@ -138,6 +138,9 @@ return [
         'options.*' => [
             'string' => 'Each option must be a string.',
         ],
+        'option' => [
+            'required' => 'You must choose an option.',
+        ],
     ],
 
     /*

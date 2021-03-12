@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Vote;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\VoteRequest;
 use App\Models\Question;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VotingController extends Controller
@@ -37,14 +37,24 @@ class VotingController extends Controller
         }
     }
 
-    public function vote()
+    public function vote(Question $question)
     {
-        // TODO show the voting form
+        if (Auth::user()->hasParticipated($question)) {
+            return view('vote.vote_participated');
+        } else if ($question->closes_at->isPast()) {
+            return view('vote.vote_closed', ['vote' => $question]);
+        } else {
+            return view('vote.vote', ['vote' => $question]);
+        }
     }
 
-    public function storeVote(Request $request)
+    public function storeVote(Question $question, VoteRequest $request)
     {
-        // TODO vote (write VotingRequest)
+        $data = $request->validated();
+
+        $question->participatingUsers()->attach($request->user(), ['option_id' => $data['option']]);
+
+        return redirect(route('voting.index'));
     }
 
     public function results(Question $question)
