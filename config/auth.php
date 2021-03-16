@@ -114,4 +114,9 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+     * Length of automatically generated authentication tokens
+     */
+    'token_length' => env('AUTH_TOKEN_LENGTH', 64),
+
 ];

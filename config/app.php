@@ -231,4 +231,8 @@ return [
 
     'default_vote_duration' => env('DEFAULT_VOTE_DURATION', 15),
 
+    'notifications' => [
+        'channel_type' => env('NOTIFICATION_CHANNEL_TYPE', App\Services\Egoi\Contracts\CommunicationService::CHANNEL_TYPE_ALL),
+    ],
+
 ];

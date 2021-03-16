@@ -27,7 +27,8 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest');
 
 Route::get('/enter/{token}', [AuthenticatedSessionController::class, 'enter'])
-    ->middleware('guest');
+    ->middleware('guest')
+    ->name('login_by_token');
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
