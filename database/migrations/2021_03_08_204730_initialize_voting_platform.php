@@ -14,7 +14,7 @@ class InitializeVotingPlatform extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('delegation', 3)->nullable();
+            $table->string('delegation')->nullable();
             $table->boolean('is_admin');
             $table->string('auth_token');
         });

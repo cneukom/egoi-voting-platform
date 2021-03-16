@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'is_admin' => false,
             'auth_token' => Str::random(80),
-            'delegation' => $this->faker->countryISOAlpha3,
+            'delegation' => $this->faker->country,
         ];
     }
 }
