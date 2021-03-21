@@ -17,10 +17,16 @@
         </a>
 
         @auth
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <a href="javascript:" onclick="this.parentNode.submit()">Logout</a>
-            </form>
+            <div class="text-right">
+                Time in {{ config('app.display_timezone') }}:
+                <span data-now>
+                    {{ now()->timezone(config('app.display_timezone'))->format(__('app.voting.now_format')) }}
+                </span>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="javascript:" onclick="this.parentNode.submit()">Logout</a>
+                </form>
+            </div>
         @endauth
     </div>
 </div>

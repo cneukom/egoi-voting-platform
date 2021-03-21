@@ -40,7 +40,7 @@
             @foreach($openVotesDidntVote as $vote)
                 <tr>
                     <td>{{ $vote->question }}</td>
-                    <td>{{ $vote->closes_at->format(__('app.voting.closes_at_format')) }}</td>
+                    <td>{{ $vote->closes_at->timezone(config('app.display_timezone'))->format(__('app.voting.closes_at_format')) }}</td>
                     <td>
                         @if(Auth::user()->is_admin)
                             @if($vote->participating_users_count === $totalVotersCount)
@@ -61,7 +61,7 @@
             @foreach($openVotesVoted as $vote)
                 <tr class="text-black-50">
                     <td>{{ $vote->question }}</td>
-                    <td>{{ $vote->closes_at->format(__('app.voting.closes_at_format')) }}</td>
+                    <td>{{ $vote->closes_at->timezone(config('app.display_timezone'))->format(__('app.voting.closes_at_format')) }}</td>
                     @if(!Auth::user()->is_admin)
                         <td>{{ __('app.voting.voted') }}</td>
                     @endif
@@ -94,7 +94,7 @@
                         <td class="text-black-50">{{ __('app.voting.undecided') }}</td>
                         <td class="text-black-50">&mdash;</td>
                     @endif
-                    <td>{{ $vote->closes_at->format(__('app.voting.closes_at_format')) }}</td>
+                    <td>{{ $vote->closes_at->timezone(config('app.display_timezone'))->format(__('app.voting.closes_at_format')) }}</td>
                     <td>
                         <a href="{{ route('voting.results', ['question' => $vote]) }}">{{ __('app.voting.results') }}</a>
                     </td>

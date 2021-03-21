@@ -31,7 +31,7 @@
         <div class="form-group">
             <label>{{ __('app.create.duration') }}</label>
             <p>{{ $duration }} {{ __('app.create.duration_unit') }}
-                {{ __('app.create.closes_at_approx', ['time' => $closes_at->format('H:i')]) }}</p>
+                {{ __('app.create.closes_at_approx', ['time' => $closes_at->timezone(config('app.display_timezone'))->format('H:i')]) }}</p>
         </div>
 
         <fieldset>

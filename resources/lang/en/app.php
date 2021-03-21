@@ -17,6 +17,7 @@ return [
         'closed_at' => 'Closed at',
         'closes_at' => 'Due by',
         'closes_at_format' => 'H:i',
+        'now_format' => 'H:i:s',
         'action' => 'Action',
         'vote' => 'Go to vote',
         'voted' => 'Voted already',
