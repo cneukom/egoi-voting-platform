@@ -26,7 +26,10 @@ class QuestionRequest extends FormRequest
     public function validated()
     {
         $validated = parent::validated();
-        $validated['closes_at'] = now()->addMinutes($validated['duration']);
+        $validated['closes_at'] = now()
+            // round up current minute, to close at a full minute while providing at least the requested voting duration
+            ->addSeconds(30)->roundMinute()
+            ->addMinutes($validated['duration']);
         return $validated;
     }
 }
