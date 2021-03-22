@@ -12,6 +12,12 @@ DB_HOST
 DB_DATABASE
 DB_USERNAME
 DB_PASSWORD
+
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_DEFAULT_REGION
+AWS_BUCKET
+AWS_ENDPOINT # need to provide bucket endpoint here (include bucket in url)
 ```
 
 To generate a key, you can run `./artisan key:generate --show`.
