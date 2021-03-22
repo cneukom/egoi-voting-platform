@@ -17,7 +17,7 @@ AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 AWS_DEFAULT_REGION
 AWS_CONFIG_BUCKET # only required if not config
-AWS_ENDPOINT # need to provide bucket endpoint here (include bucket in url)
+AWS_CONFIG_ENDPOINT # need to provide bucket endpoint here (include bucket in url)
 ```
 
 To generate a key, you can run `./artisan key:generate --show`.

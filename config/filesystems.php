@@ -49,7 +49,7 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_CONFIG_BUCKET', 'config'),
             'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
+            'endpoint' => env('AWS_CONFIG_ENDPOINT'),
             'bucket_endpoint' => true,
         ],
 
