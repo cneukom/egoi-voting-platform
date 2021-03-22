@@ -20,7 +20,7 @@ abstract class Reader
      * @param string $disk
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function __construct(string $filename, string $disk = 's3')
+    public function __construct(string $filename, string $disk = 'config')
     {
         $fileContents = Storage::disk($disk)->get($filename);
         $this->records = preg_split('/[\r\n]+/', $fileContents);
