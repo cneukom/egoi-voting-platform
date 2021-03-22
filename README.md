@@ -16,7 +16,7 @@ DB_PASSWORD
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 AWS_DEFAULT_REGION
-AWS_BUCKET
+AWS_CONFIG_BUCKET # only required if not config
 AWS_ENDPOINT # need to provide bucket endpoint here (include bucket in url)
 ```
 
