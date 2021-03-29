@@ -117,6 +117,6 @@ return [
     /*
      * Length of automatically generated authentication tokens
      */
-    'token_length' => env('AUTH_TOKEN_LENGTH', 64),
+    'token_length' => env('AUTH_TOKEN_LENGTH', 32),
 
 ];
