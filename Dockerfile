@@ -9,12 +9,14 @@ ENV APACHE_DOCUMENT_ROOT /var/www/app/public
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
 
+RUN a2enmod rewrite
+
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN apt-get update \
-    && apt-get install -y libzip-dev zip \
-    && docker-php-ext-install zip
+    && apt-get install -y libzip-dev zip libpq-dev \
+    && docker-php-ext-install zip pdo pdo_pgsql
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"

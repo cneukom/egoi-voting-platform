@@ -1,0 +1,142 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: voting-postgres-volume
+  labels:
+    app: voting
+    component: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/voting-pg-data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: voting-postgres-volume
+  labels:
+    app: voting
+    component: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: voting-postgres
+  labels:
+    app: postgres
+spec:
+  serviceName: "voting-postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voting
+  template:
+    metadata:
+      labels:
+        app: voting
+        component: postgres
+    spec:
+      containers:
+        - name: voting-postgres
+          image: postgres:12
+          env:
+            - name: POSTGRES_USER
+              value: voting
+            - name: POSTGRES_PASSWORD
+              value: testing123
+            - name: POSTGRES_DB
+              value: voting
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: voting-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: voting-data
+          persistentVolumeClaim:
+            claimName: voting-postgres-volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting-postgres
+  labels:
+    app: voting
+    component: postgres
+spec:
+  ports:
+    - port: 5432
+      name: postgres
+  type: NodePort
+  selector:
+    app: voting
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting
+  labels:
+    app: voting
+    component: platform
+spec:
+  selector:
+    app: voting
+    component: platform
+  ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: voting-php
+  template:
+    metadata:
+      labels:
+        run: voting-php
+    spec:
+      containers:
+        - name: voting
+          image: voting:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: voting-env
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: voting-init-db
+  labels:
+    app: voting
+spec:
+  template:
+    spec:
+      containers:
+        - name: voting-init-db
+          image: voting:latest
+          imagePullPolicy: Never
+          command: [ "bash", "-c", "./artisan migrate --force && ./artisan user:create" ]
+          envFrom:
+            - secretRef:
+                name: voting-env
+      restartPolicy: Never

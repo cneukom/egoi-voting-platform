@@ -25,11 +25,17 @@ class CreateUser extends Command
 
     public function handle(Hasher $hasher): int
     {
-        $password = Str::random(12);
+        if (User::where('email', $this->argument('email'))->exists()) {
+            return 0;
+        }
+
+        $password = env('USER_PASSWORD', Str::random(12));
         $user = new User();
         $user->email = $this->argument('email');
         $user->name = $this->argument('name');
         $user->password = $hasher->make($password);
+        $user->is_admin = true;
+        $user->auth_token = '';
         $user->save();
         $this->output->success('Created user ' . $this->argument('name') . ' with password ' . $password);
         return 0;
