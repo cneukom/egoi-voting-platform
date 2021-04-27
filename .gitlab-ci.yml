@@ -1,0 +1,13 @@
+build:
+  stage: build
+  script: [""]
+  tags:
+    - docker
+
+deploy:
+  stage: deploy
+  script: [""]
+  only:
+    - master
+  tags:
+    - tinydeploy
