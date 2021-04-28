@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+if(config('app.force_https')) {
+    \Illuminate\Support\Facades\URL::forceScheme('https');
+}
+
 Route::get('/', function () {
     return view('welcome');
 });
