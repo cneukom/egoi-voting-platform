@@ -11,12 +11,12 @@ ENV TZ=UTC
 
 RUN a2enmod rewrite
 
-RUN echo '<IfModule mpm_prefork_module> \
-          	StartServers			 1 \
-          	MinSpareServers		  1 \
-          	MaxSpareServers		 1 \
-          	MaxRequestWorkers	  1 \
-          	MaxConnectionsPerChild   100 \
+RUN echo $'<IfModule mpm_prefork_module> \n\
+          	StartServers			 1 \n\
+          	MinSpareServers		  1 \n\
+          	MaxSpareServers		 1 \n\
+          	MaxRequestWorkers	  1 \n\
+          	MaxConnectionsPerChild   100 \n\
           </IfModule>' > /etc/apache2/mods-available/mpm_prefork.conf
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
