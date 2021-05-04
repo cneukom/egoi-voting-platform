@@ -11,6 +11,7 @@ ENV TZ=UTC
 
 RUN a2enmod rewrite
 
+# When changing the numbers of servers, don't forget to adapt the Pod's memroy limits!
 RUN echo ' \n\
 # prefork MPM\n\
 \n\
