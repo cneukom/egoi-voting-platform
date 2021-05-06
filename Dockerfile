@@ -23,6 +23,9 @@ RUN apt-get update \
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+RUN docker-php-ext-install opcache
+COPY opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
+
 # install package management utils
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_15.x | bash - \
