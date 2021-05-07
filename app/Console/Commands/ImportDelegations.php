@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\Egoi\Contracts\CommunicationService;
 use App\Services\Egoi\Import\DelegationReader;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImportDelegations extends Command
@@ -15,7 +16,7 @@ class ImportDelegations extends Command
      *
      * @var string
      */
-    protected $signature = 'import {file}';
+    protected $signature = 'import {file=delegations.csv}';
 
     /**
      * The console command description.
@@ -54,7 +55,7 @@ class ImportDelegations extends Command
             $user->auth_token = Str::random(config('auth.token_length'));
             $user->save();
 
-            $this->comm->sendMessage(config('app.notifications.channel_type'), $user->delegation,
+            $this->comm->sendMessage(config('app.notifications.channel_type'), $delegation->countryCode,
                 __('notifications.user_import.welcome', [
                     'url' => route('login_by_token', ['token' => $user->auth_token]),
                 ]),

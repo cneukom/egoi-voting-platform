@@ -31,6 +31,7 @@ namespace App\Services\Egoi\Import\Stubs;
  * @property-read string $allergies
  * @property-read string $singleRoom
  * @property-read string $eventPresenceReviewProgress
+ * @property-read string $username
  */
 class Participant extends Stub
 {
@@ -43,25 +44,27 @@ class Participant extends Stub
         'birthday' => 5,
         'email' => 6,
         'gender' => 7,
-        'nameOnDocuments' => 8,
-        'portrait' => 9,
-        'papers' => 10,
-        'consent' => 11,
-        'personalDataReviewProgress' => 12,
-        'nationality' => 13,
-        'passportNumber' => 14,
-        'passportValidityFrom' => 15,
-        'passportValidityTo' => 16,
-        'passportIssueCountry' => 17,
-        'countryOfResidence' => 18,
-        'placeOfBirth' => 19,
-        'immigrationReviewProgress' => 20,
-        'shirtSize' => 21,
-        'shirtFit' => 22,
-        'diet' => 23,
-        'allergies' => 24,
-        'singleRoom' => 25,
-        'eventPresenceReviewProgress' => 26,
+        'shirtSize' => 8,
+        'shirtFit' => 9,
+        'sockSize' => 10,
+        'nameOnDocuments' => 11,
+        'portrait' => 12,
+        'papers' => 13,
+        'consent' => 14,
+        'personalDataReviewProgress' => 15,
+        'nationality' => 16,
+        'passportNumber' => 17,
+        'passportValidityFrom' => 18,
+        'passportValidityTo' => 19,
+        'passportIssueCountry' => 20,
+        'countryOfResidence' => 21,
+        'placeOfBirth' => 22,
+        'immigrationReviewProgress' => 23,
+        'diet' => 24,
+        'allergies' => 25,
+        'singleRoom' => 26,
+        'eventPresenceReviewProgress' => 27,
+        'username' => 28,
     ];
 
     public function __get($key)

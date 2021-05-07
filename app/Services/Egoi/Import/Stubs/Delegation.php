@@ -12,8 +12,10 @@ namespace App\Services\Egoi\Import\Stubs;
  * @property-read string $participationMode
  * @property-read string $attendanceReviewProgress
  * @property-read string $translations
+ * @property-read string $deliveryAddress
  * @property-read string $contributionReviewProgress
  * @property-read string $registration_url
+ * @property-read string $countryCode
  */
 class Delegation extends Stub
 {
@@ -26,7 +28,9 @@ class Delegation extends Stub
         'participationMode' => 5,
         'attendanceReviewProgress' => 6,
         'translations' => 7,
-        'contributionReviewProgress' => 8,
-        'registration_url' => 9,
+        'deliveryAddress' => 8,
+        'contributionReviewProgress' => 9,
+        'registration_url' => 10,
+        'countryCode' => 11,
     ];
 }
