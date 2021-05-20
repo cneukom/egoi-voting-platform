@@ -12,7 +12,7 @@
     </h1>
 
     <div
-        class="alert alert-info mb-5">{{ __('app.vote.instructions', ['time' => $vote->closes_at->format(__('app.voting.closes_at_format'))]) }}</div>
+        class="alert alert-info mb-5">{{ __('app.vote.instructions', ['time' => $vote->closes_at->timezone(config('app.display_timezone'))->format(__('app.voting.closes_at_format'))]) }}</div>
 
     <h2>{{ $vote->question }}</h2>
 
