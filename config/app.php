@@ -238,4 +238,8 @@ return [
         'channel_type' => env('NOTIFICATION_CHANNEL_TYPE', App\Services\Egoi\Contracts\CommunicationService::CHANNEL_TYPE_ALL),
     ],
 
+    'grpc' => [
+        'endpoint' => env('GRPC_ENDPOINT', 'keybase-mailbox-gw:3000'),
+    ],
+
 ];

@@ -11,11 +11,14 @@
         "php": "^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "google/protobuf": "^3.17",
+        "grpc/grpc": "^1.36",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "spatie/laravel-enum": "^2.2"
+        "spatie/laravel-enum": "^2.2",
+        "ext-grpc": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -38,6 +41,8 @@
     },
     "autoload": {
         "psr-4": {
+            "Messaging\\": "grpc/Messaging/",
+            "GPBMetadata\\": "grpc/GPBMetadata/",
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"

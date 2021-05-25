@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Services\Egoi\Contracts\CommunicationService;
-use App\Services\Egoi\Mocks\CommunicationService as CommunicationServiceMock;
+use App\Services\Egoi\Keybase\CommunicationService as KeybaseCommunicationService;
+use Grpc\ChannelCredentials;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Messaging\MessagingClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CommunicationService::class, CommunicationServiceMock::class);
+        $this->app->bind(CommunicationService::class, KeybaseCommunicationService::class);
+        $this->app->bind(MessagingClient::class, function () {
+            return new MessagingClient(config('app.grpc.endpoint'), [
+                'credentials' => ChannelCredentials::createInsecure(),
+            ]);
+        });
     }
 
     /**
