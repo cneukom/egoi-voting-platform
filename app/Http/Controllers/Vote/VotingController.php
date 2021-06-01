@@ -76,6 +76,10 @@ class VotingController extends Controller
 
     public function results(Question $question)
     {
+        if ($question->closes_at->isFuture()) {
+            return redirect(route('voting.index'));
+        }
+
         $question->load(['options.voteCount', 'options.voters']);
 
         return view('vote.results', [
