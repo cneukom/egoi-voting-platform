@@ -119,4 +119,6 @@ return [
      */
     'token_length' => env('AUTH_TOKEN_LENGTH', 32),
 
+    'api_token' => env('API_AUTH_TOKEN'),
+
 ];

@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\AuthenticateApi;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\NonAdmin;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
             StartSession::class,
             'throttle:api',
             SubstituteBindings::class,
+            AuthenticateApi::class,
         ],
     ];
 
