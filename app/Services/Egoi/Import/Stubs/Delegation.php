@@ -32,5 +32,6 @@ class Delegation extends Stub
         'contributionReviewProgress' => 9,
         'registration_url' => 10,
         'countryCode' => 11,
+        'countryCode2' => 12,
     ];
 }
